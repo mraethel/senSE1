@@ -4,8 +4,6 @@
 
     mraethel.url = "github:mraethel/mraethel.nix";
 
-    nixvim.url = "github:nix-community/nixvim";
-
     systems.url = "github:nix-systems/x86_64-linux";
     flakeUtils.url = "github:numtide/flake-utils";
     flakeUtils.inputs.systems.follows = "systems";
@@ -15,26 +13,24 @@
     self,
     nixpkgs,
     mraethel,
-    nixvim,
     flakeUtils,
     ...
-  }: {
-    nixVimConfigurations.default = mraethel.nixVimConfigurations.default // {
-      plugins = {
-        lsp.servers.jdtls.enable = true;
-        plantuml-syntax.enable = true;
-      };
+  }: rec {
+    nixvimModules.config.default.plugins = {
+      lsp.servers.jdt-language-server.enable = true;
+      plantuml-syntax.enable = true;
     };
+    nixvimConfigurations.default = { system }: (mraethel.nixvimConfigurations.basic { inherit system; }).extend nixvimModules.config.default;
   } // flakeUtils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs { inherit system; };
-  in {
+  in rec {
     packages = {
-      nvim = nixvim.legacyPackages.${ system }.makeNixvim self.nixVimConfigurations.default;
+      nvim = self.nixvimConfigurations.default { inherit system; };
       plantuml = pkgs.writeScriptBin "put" "${ pkgs.plantuml }/bin/plantuml -tpdf $@";
     };
     devShells.default = pkgs.mkShell {
       name = "senSE1";
-      packages = (with self.packages.${ system }; [
+      packages = (with packages; [
         nvim
         plantuml
       ]);
