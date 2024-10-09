@@ -20,7 +20,10 @@
     ...
   }: {
     nixVimConfigurations.default = mraethel.nixVimConfigurations.default // {
-      plugins.plantuml-syntax.enable = true;
+      plugins = {
+        lsp.servers.jdtls.enable = true;
+        plantuml-syntax.enable = true;
+      };
     };
   } // flakeUtils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs { inherit system; };
