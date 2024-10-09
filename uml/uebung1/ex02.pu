@@ -1,0 +1,50 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+package "control" {
+  interface Translator <<interface>> {
+    + version : double = 1.0
+    + translateNumber(number : int) : String
+  }
+
+  class TranslatorFactory {
+    - TranslatorFactory()
+    {static} + createTranslator(type : TranslatorType) : Translator
+  }
+
+  enum TranslatorType {
+    GERMAN
+  }
+
+  class GermanTranslator {
+    - date : String = "Okt/2024"
+    + printInfo() : void
+    ~ setDate(date : String) : void
+  }
+
+  TranslatorFactory -- TranslatorType
+  GermanTranslator ..|> Translator
+  TranslatorFactory ..> GermanTranslator : <<create>>
+}
+
+package "view" {
+  class Client {
+    ~ display(aNumber : int) : void
+  }
+}
+
+package "test" {
+  class GermanTranslatorTest {
+    {static} - germanTranslator : Translator
+    {static} ~ setUp() : void
+    + testPos() : void
+    + testNeg() : void
+  }
+}
+
+Client ..> TranslatorFactory : <<use>>
+GermanTranslatorTest ..> TranslatorFactory : <<use>>
+
+@enduml
