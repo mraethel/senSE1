@@ -28,13 +28,15 @@
   } // flakeUtils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs { inherit system; };
   in {
-    packages.nvim = nixvim.legacyPackages.${ system }.makeNixvim self.nixVimConfigurations.default;
+    packages = {
+      nvim = nixvim.legacyPackages.${ system }.makeNixvim self.nixVimConfigurations.default;
+      plantuml = pkgs.writeScriptBin "put" "${ pkgs.plantuml }/bin/plantuml -tpdf $@";
+    };
     devShells.default = pkgs.mkShell {
       name = "senSE1";
-      packages = (with pkgs; [
-        plantuml
-      ]) ++ (with self.packages.${ system }; [
+      packages = (with self.packages.${ system }; [
         nvim
+        plantuml
       ]);
       shellHook = "exec $SHELL";
     };
