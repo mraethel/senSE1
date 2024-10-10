@@ -25,7 +25,9 @@ public class Container {
   }
 
   public void dump () {
-    members.forEach (memberInMembers -> { System.out.println(memberInMembers); });
+    members.forEach (memberInMembers -> {
+      System.out.println("Member (ID = " + memberInMembers + ")");
+    });
   }
 
   public int size () { return members.size(); }
