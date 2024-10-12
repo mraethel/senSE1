@@ -22,7 +22,7 @@ public class ContainerTest {
   private static ContainerException exception2;
 
   @BeforeEach
-  public static void init () {
+  public void init () {
     member1 = new ConcreteMember();
     member2 = new ConcreteMember();
 
@@ -51,7 +51,8 @@ public class ContainerTest {
 
     @BeforeEach
     public void addMember1 () {
-      container.addMember(member1);
+      try { container.addMember(member1); }
+      catch(ContainerException e) { throw new RuntimeException("Stage1: ContainerException!"); };
     }
 
     @Test
@@ -81,7 +82,8 @@ public class ContainerTest {
 
       @BeforeEach
       public void addMember2 () {
-        container.addMember(member2);
+        try { container.addMember(member2); }
+        catch(ContainerException e) { throw new RuntimeException("Stage2: ContainerException!"); };
       }
 
       @Test

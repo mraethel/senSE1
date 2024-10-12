@@ -7,10 +7,13 @@ public class Container {
  
   private ArrayList<Member> members;
 
+  public Container() { members = new ArrayList<>(); }
+
   public void addMember (Member member) throws ContainerException {
-    members.forEach (memberInMembers -> {
-      if (member.getID().equals(memberInMembers.getID())) throw new ContainerException(member.getID());
-    });
+    Iterator<Member> membersIterator = members.iterator();
+
+    while (membersIterator.hasNext())
+      if (member.getID().equals(membersIterator.next().getID())) throw new ContainerException(member.getID());
 
     members.add(member);
   }
