@@ -34,16 +34,26 @@ public class ContainerTest {
 
   @Test
   public void testStage0 () {
-    assertAll("testStage0Members",
-      () -> assertFalse(container.contains(member1)),
-      () -> assertFalse(container.contains(member2)));
+    testStage0Members();
+    testStage0Size();
+    testStage0Deletion();
+  }
 
-    assertAll("testStage0Size",
-      () -> assertEquals(0, container.size()));
+  @Test
+  public void testStage0Members () {
+    assertFalse(container.contains(member1));
+    assertFalse(container.contains(member2));
+  }
 
-    assertAll("testStage0Deletion",
-      () -> assertNotNull(container.deleteMember(member1.getID())),
-      () -> assertNotNull(container.deleteMember(member2.getID())));
+  @Test
+  public void testStage0Size () {
+    assertEquals(0, container.size());
+  }
+
+  @Test
+  public void testStage0Deletion () {
+    assertNotNull(container.deleteMember(member1.getID()));
+    assertNotNull(container.deleteMember(member2.getID()));
   }
 
   @Nested
@@ -56,25 +66,40 @@ public class ContainerTest {
     }
 
     @Test
-    public void testStage1 () {
-      assertAll("testStage1Members",
-        () -> assertTrue(container.contains(member1)),
-        () -> assertFalse(container.contains(member2)));
+    public void testStage1() {
+      testStage1Members();
+      testStage1Size();
+      testStage1Duplicate();
+      testStage1Deletion();
+      testStage0FromStage1();
+    }
 
-      assertAll("testStage1Size",
-        () -> assertEquals(1, container.size()));
+    @Test
+    public void testStage1Members () {
+      assertTrue(container.contains(member1));
+      assertFalse(container.contains(member2));
+    }
 
-      assertAll("testStage1Duplicate",
-        () -> assertThrows(ContainerException.class,
-          () -> container.addMember(member1)));
+    @Test
+    public void testStage1Size () {
+      assertEquals(1, container.size());
+    }
 
-      assertAll("testStage1Deletion",
-        () -> assertNotNull(container.deleteMember(member2.getID())));
+    @Test
+    public void testStage1Duplicate () {
+      assertThrows(ContainerException.class,
+        () -> container.addMember(member1));
+    }
 
-      assertAll("testStage0FromStage1",
-        () -> assertNull(container.deleteMember(member1.getID())),
-        () -> testStage0());
+    @Test
+    public void testStage1Deletion () {
+      assertNotNull(container.deleteMember(member2.getID()));
+    }
 
+    @Test
+    public void testStage0FromStage1 () {
+      assertNull(container.deleteMember(member1.getID()));
+      testStage0();
     }
 
     @Nested
@@ -88,22 +113,35 @@ public class ContainerTest {
 
       @Test
       public void testStage2 () {
-        assertAll("testStage2Members",
-          () -> assertTrue(container.contains(member1)),
-          () -> assertTrue(container.contains(member2)));
+        testStage2Members();
+        testStage2Size();
+        testStage2Duplicate();
+        testStage1FromStage2();
+      }
 
-        assertAll("testStage2Size",
-          () -> assertEquals(2, container.size()));
+      @Test
+      public void testStage2Members () {
+        assertTrue(container.contains(member1));
+        assertTrue(container.contains(member2));
+      }
 
-        assertAll("testStage2Duplicate",
-          () -> assertThrows(ContainerException.class,
-            () -> container.addMember(member1)),
-          () -> assertThrows(ContainerException.class,
-            () -> container.addMember(member2)));
+      @Test
+      public void testStage2Size () {
+        assertEquals(2, container.size());
+      }
 
-        assertAll("testStage1FromStage2",
-          () -> assertNull(container.deleteMember(member2.getID())),
-          () -> testStage1());
+      @Test
+      public void testStage2Duplicate () {
+        assertThrows(ContainerException.class,
+          () -> container.addMember(member1));
+        assertThrows(ContainerException.class,
+          () -> container.addMember(member2));
+      }
+
+      @Test
+      public void testStage1FromStage2 () {
+        assertNull(container.deleteMember(member2.getID()));
+        testStage1();
       }
 
     }
