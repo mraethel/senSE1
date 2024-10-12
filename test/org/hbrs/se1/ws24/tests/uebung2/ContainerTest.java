@@ -1,10 +1,11 @@
 package org.hbrs.se1.ws24.tests.uebung2;
 
-import org.hbrs.se1.ws24.uebung2.*;
+import org.hbrs.se1.ws24.exercises.uebung2.*;
 
-import org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
