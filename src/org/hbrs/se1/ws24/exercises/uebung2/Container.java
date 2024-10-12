@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.uebung2;
+package org.hbrs.se1.ws24.exercises.uebung2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ public class Container {
 
   public void addMember (Member member) throws ContainerException {
     members.forEach (memberInMembers -> {
-      if (member.getID() == memberInMembers.getID()) throw new ContainerException(member.getID());
+      if (member.getID().equals(memberInMembers.getID())) throw new ContainerException(member.getID());
     });
 
     members.add(member);
@@ -19,8 +19,14 @@ public class Container {
     Iterator<Member> membersIterator = members.iterator();
 
     while (membersIterator.hasNext())
-      if (id == membersIterator.next().getID()) { membersIterator.remove(); return ""; }
+      if (id.equals(membersIterator.next().getID())) { membersIterator.remove(); return null; }
 
+    /*
+     * Nachteile der folgenden Fehlerbehandlung:
+     * - weniger Fehlerinformationen (vgl. Stacktrace)
+     * - umständliche Unterscheidung von verschiedenen Fehlertypen
+     * - umständliche Verarbeitung und Weiterleitung von Fehlern
+     **/
     return "Das Member-Object mit der ID " + id + " existiert nicht!";
   }
 
@@ -31,5 +37,10 @@ public class Container {
   }
 
   public int size () { return members.size(); }
+
+  /**
+   * Used only for test purposes.
+   */
+  public boolean contains (Member member) { return members.contains(member); }
 
 }
