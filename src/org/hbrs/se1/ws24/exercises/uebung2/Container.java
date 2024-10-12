@@ -21,8 +21,16 @@ public class Container {
   public String deleteMember (Integer id) {
     Iterator<Member> membersIterator = members.iterator();
 
-    while (membersIterator.hasNext())
-      if (id.equals(membersIterator.next().getID())) { membersIterator.remove(); return null; }
+    while (membersIterator.hasNext()) {
+      Integer nextId = membersIterator.next().getID();
+
+      if (id.equals(nextId)) {
+        membersIterator.remove();
+        ConcreteMember.freeID(nextId);
+
+        return null;
+      }
+    }
 
     /*
      * Nachteile der folgenden Fehlerbehandlung:
