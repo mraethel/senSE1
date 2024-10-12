@@ -4,7 +4,7 @@ public class ConcreteMember implements Member {
 
   private Integer id;
 
-  public ConcreteMember () { id = Long.valueOf(System.currentTimeMillis()).hashCode(); }
+  public ConcreteMember () { id = Long.valueOf(System.nanoTime()).hashCode(); }
 
   @Override
   public Integer getID() { return id; }
