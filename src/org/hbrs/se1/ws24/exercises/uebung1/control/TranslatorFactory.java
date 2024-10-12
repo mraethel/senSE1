@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.uebung1.control;
+package org.hbrs.se1.ws24.exercises.uebung1.control;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

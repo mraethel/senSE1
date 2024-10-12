@@ -1,7 +1,6 @@
-package org.hbrs.se1.ws24.uebung1.view;
+package org.hbrs.se1.ws24.exercises.uebung1.view;
 
-import org.hbrs.se1.ws24.uebung1.control.Translator;
-import org.hbrs.se1.ws24.uebung1.control.TranslatorFactory;
+import org.hbrs.se1.ws24.exercises.uebung1.control.*;
 
 public class Client {
 

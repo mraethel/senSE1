@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.uebung1.control;
+package org.hbrs.se1.ws24.exercises.uebung1.control;
 
 /**
  * Das Translator Interface. Die Anzahl der Methoden ist fix
