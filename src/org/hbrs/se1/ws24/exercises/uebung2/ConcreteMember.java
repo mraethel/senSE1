@@ -1,0 +1,28 @@
+package org.hbrs.se1.ws24.exercises.uebung2;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ConcreteMember implements Member {
+
+  private static Integer maxId = Integer.MIN_VALUE;
+
+  private static volatile Queue<Integer> idQueue = new LinkedList<>();
+
+  private static synchronized Integer getNextID () {
+    return !idQueue.isEmpty() ? idQueue.remove() : maxId++;
+  }
+
+  public static synchronized void freeID (Integer id) { idQueue.offer(id); }
+
+  private Integer id;
+
+  public ConcreteMember () { id = getNextID(); }
+
+  @Override
+  public Integer getID () { return id; }
+
+  @Override
+  public String toString () { return getID().toString(); }
+
+}
