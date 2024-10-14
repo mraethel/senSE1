@@ -9,12 +9,12 @@
     flakeUtils.inputs.systems.follows = "systems";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    mraethel,
-    flakeUtils,
-    ...
+  outputs =
+  { self
+  , nixpkgs
+  , mraethel
+  , flakeUtils
+  , ...
   }: rec {
     nixvimModules.config.default.plugins = {
       lsp.servers.jdt-language-server.enable = true;
