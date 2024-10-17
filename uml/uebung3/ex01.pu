@@ -20,7 +20,7 @@ rectangle #B8D5B8 (bespricht Anforderungen nacheinander) {
   :bespricht Rahmenbedingungen und Einflussfaktoren;
   :Planning Poker;
   if (Aufnhame in das selektierte Produkt Backlog) then (nein)
-    :legt Anforderung mit der neuen Schätzung inn das Produkt Backlog;
+    :legt Anforderung mit der neuen Schätzung in das Produkt Backlog;
     :passt Ziel an;
   else (ja)
   endif
