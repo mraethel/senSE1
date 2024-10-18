@@ -19,6 +19,12 @@ public class ConcreteMember implements Member {
 
   public ConcreteMember () { id = getNextID(); }
 
+  public ConcreteMember(Integer id) {
+    this.id = id;
+    maxId = Math.max(maxId, id + 1);
+  }
+
+
   @Override
   public Integer getID () { return id; }
 

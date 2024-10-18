@@ -16,17 +16,17 @@ public class ContainerTest {
   private static Member member1;
   private static Member member2;
 
-  private static Container container;
+  private static Container container = Container.INSTANCE;
 
   private static ContainerException exception1;
   private static ContainerException exception2;
 
   @BeforeEach
   public void init () {
+    container.clear();
+
     member1 = new ConcreteMember();
     member2 = new ConcreteMember();
-
-    container = new Container();
 
     exception1 = new ContainerException(member1.getID());
     exception2 = new ContainerException(member2.getID());

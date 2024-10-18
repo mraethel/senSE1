@@ -1,6 +1,6 @@
 package org.hbrs.se1.ws24.tests.uebung3;
 
-import org.hbrs.se1.ws24.exercises.uebung3.*;
+import org.hbrs.se1.ws24.exercises.uebung3.persistence.*;
 
 import org.hbrs.se1.ws24.tests.uebung2.ContainerTest;
 
