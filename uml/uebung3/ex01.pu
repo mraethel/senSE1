@@ -1,33 +1,53 @@
 @startuml
 
-|#39A2AE|Product Owner|
+skinparam DefaultTextAlignment center
+skinparam TitleFontSize 20
+skinparam TitleBorderColor black
+skinparam TitleBorderThickness 5
+skinparam SwimlaneTitleFontStyle bold
+
+title Scrum Meeting 1 Ablaufplan
+
+|#59C2CE|Product Owner|
 start
 :stellt Agenda vor;
 :stellt Sprintziel vor;
+:Sprintziel]
 
-|#87B37A|Scrum Team|
-:reflektiert Ergebnisse des vorherigen Sprints;
+|#84C318|Scrum Team|
+:reflektiert Ergebnisse\ndes vorherigen Sprints;
 :ermittelt neue Kapazität;
 
 |Product Owner|
-:gibt Überblick über die Anforderungen;
+:gibt Überblick\nüber die Anforderungen;
+:Anforderungen]
 
 |Scrum Team|
 repeat
-skinparam defaultTextAlignment left
 rectangle #B8D5B8 (bespricht Anforderungen nacheinander) {
+  :Anforderung]
   :analysiert Anforderung;
-  :bespricht Rahmenbedingungen und Einflussfaktoren;
+  :bespricht Rahmenbedingungen\lund Einflussfaktoren;
   :Planning Poker;
-  if (Aufnhame in das selektierte Produkt Backlog) then (nein)
-    :legt Anforderung mit der neuen Schätzung in das Produkt Backlog;
-    :passt Ziel an;
+  :Anforderung\n(geschätzt)]
+  if (Aufnhame) then (nein)
+    :Produkt Backlog]
+    :Sprintziel\n(angepasst)]
   else (ja)
+    :selektiertes\nProdukt Backlog\n(erweitert)]
   endif
 }
 repeat while (mehr Anforderungen) is (ja) not (nein)
 
-|#89608E|Scrum Master|
+|#F58549|Entwicklungsteam|
+:Forecast;
+split
+  :selektiertes\nProdukt Backlog]
+split again
+  :Sprintziel]
+end split
+
+|#FE5D9F|Scrum Master|
 :dokumentiert Ergebnisse;
 stop
 
