@@ -5,7 +5,6 @@ import org.hbrs.se1.ws24.exercises.uebung3.persistence.PersistenceStrategy;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public enum Container {
@@ -54,12 +53,9 @@ public enum Container {
     return "Das Member-Object mit der ID " + id + " existiert nicht!";
   }
 
+  /* Kopie, um moegliche Manipulation der Liste zu verhindern */
   public List<Member> getCurrentList() {
-    List<Member> liste = new LinkedList<>();
-    for(Member member : members) {
-      liste.add(member);
-    }
-    return liste;
+    return List.copyOf(members);
   }
 
   public void store() throws PersistenceException {
@@ -74,7 +70,7 @@ public enum Container {
   }
   public int size () { return members.size(); }
 
-   void setPersistenceStrategy(PersistenceStrategy<Member> strategy) {
+   public void setPersistenceStrategy(PersistenceStrategy<Member> strategy) {
     this.strategy = strategy;
   }
 

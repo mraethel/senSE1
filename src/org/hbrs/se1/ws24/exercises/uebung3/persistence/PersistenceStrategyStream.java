@@ -1,6 +1,7 @@
 package org.hbrs.se1.ws24.exercises.uebung3.persistence;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
@@ -20,8 +21,8 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Look-up in Google for further help!
      */
     public void save(List<E> member) throws PersistenceException {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location));
+        try (FileOutputStream fos = new FileOutputStream(location);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(member);
         } catch (IOException e) {
             throw new PersistenceException(PersistenceException.ExceptionType.SavingFailed, "Couldn't save Object");

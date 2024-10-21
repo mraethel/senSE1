@@ -22,7 +22,7 @@ public class ContainerTest {
   private static ContainerException exception2;
 
   @BeforeEach
-  public void init () {
+  public void init () throws ContainerException {
     container.clear();
 
     member1 = new ConcreteMember();
