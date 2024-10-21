@@ -23,7 +23,7 @@ public class ContainerTestU3  {
 
 
   @BeforeAll
-  public static void init() throws IOException {
+  public static void init() {
     container = Container.INSTANCE;
     container.clear();
   }
@@ -40,7 +40,7 @@ public class ContainerTestU3  {
 
   @Test
   public void testStrategyMongoDB() {
-    container.setPersistenceStrategy(new PersistenceStrategyMongoDB<Member>());
+    container.setPersistenceStrategy(new PersistenceStrategyMongoDB<>());
     PersistenceException store = assertThrows(PersistenceException.class, () -> container.store());
     PersistenceException load = assertThrows(PersistenceException.class, () -> container.load());
 

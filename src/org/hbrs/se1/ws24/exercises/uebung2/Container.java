@@ -12,7 +12,6 @@ public enum Container {
  
   private List<Member> members;
 
-  private final String FILE_NAME = "Container_stored.txt";
 
   private PersistenceStrategy<Member> strategy;
 

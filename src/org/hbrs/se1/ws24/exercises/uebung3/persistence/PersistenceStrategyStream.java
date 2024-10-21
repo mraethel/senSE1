@@ -1,7 +1,6 @@
 package org.hbrs.se1.ws24.exercises.uebung3.persistence;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
