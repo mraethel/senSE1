@@ -1,9 +1,10 @@
 package org.hbrs.se1.ws24.exercises.uebung2;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ConcreteMember implements Member {
+public class ConcreteMember implements Member, Serializable {
 
   private static Integer maxId = Integer.MIN_VALUE;
 
@@ -18,6 +19,12 @@ public class ConcreteMember implements Member {
   private Integer id;
 
   public ConcreteMember () { id = getNextID(); }
+
+  public ConcreteMember(Integer id) {
+    this.id = id;
+    maxId = Math.max(maxId, id + 1);
+  }
+
 
   @Override
   public Integer getID () { return id; }
