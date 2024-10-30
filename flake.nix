@@ -35,10 +35,10 @@
       };
       
       jtest = pkgs.writeScriptBin "junit" ''
-        if [ -d $GIT_ROOT ]; then
-          java -jar ${ junit } execute --scan-classpath -cp $GIT_ROOT/out
+        if [ -d $CLASSPATH ]; then
+          java -jar ${ junit } execute --scan-classpath -cp $CLASSPATH
         else
-          echo "Failure: GIT_ROOT is $GIT_ROOT!"
+          echo "Failure: CLASSPATH is $CLASSPATH!"
         fi
       '';
       commons-cli = let
@@ -47,12 +47,12 @@
         (pkgs.fetchzip {
           url = "https://dlcdn.apache.org//commons/cli/binaries/commons-cli-${ version }-bin.tar.gz";
           sha256 = "sha256-m/WyerWVNVTD8VC9/S76NA0XlINcfA+YaTzX1zxrmxc=";
-        }) "/commons-cli-1.9.0.jar"
+        }) "/commons-cli-${ version }.jar"
       ];
       jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
-          javac -d $GIT_ROOT/out -cp "${ junit }:${ commons-cli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
+          javac -d $CLASSPATH -cp "${ junit }:${ commons-cli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
         else
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
@@ -71,6 +71,7 @@
       ]);
       shellHook = ''
         GIT_ROOT=$(git rev-parse --show-toplevel) \
+        CLASSPATH=$GIT_ROOT/out \
         EDITOR=nvim \
         exec $SHELL
       '';
