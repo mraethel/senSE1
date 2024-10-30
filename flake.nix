@@ -33,11 +33,26 @@
         url = "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${ version }/junit-platform-console-standalone-${ version }.jar";
         sha256 = "u6I05YgLEER4fUu+uH4uTA06hf3Gn02BoSrrz99tVBM=";
       };
+      
       jtest = pkgs.writeScriptBin "junit" ''
+        if [ -d $GIT_ROOT ]; then
+          java -jar ${ junit } execute --scan-classpath -cp $GIT_ROOT/out
+        else
+          echo "Failure: GIT_ROOT is $GIT_ROOT!"
+        fi
+      '';
+      commons-cli = let
+        version = "1.9.0";
+      in nixpkgs.lib.concatStrings [
+        (pkgs.fetchzip {
+          url = "https://dlcdn.apache.org//commons/cli/binaries/commons-cli-${ version }-bin.tar.gz";
+          sha256 = "sha256-m/WyerWVNVTD8VC9/S76NA0XlINcfA+YaTzX1zxrmxc=";
+        }) "/commons-cli-1.9.0.jar"
+      ];
+      jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
-          javac -d $GIT_ROOT/out -cp ${ junit } $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
-          java -jar ${ junit } execute --scan-classpath -cp $GIT_ROOT/out
+          javac -d $GIT_ROOT/out -cp "${ junit }:${ commons-cli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
         else
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
@@ -49,6 +64,7 @@
         nvim
         plantuml
         jtest
+        jcc
       ]) ++ (with pkgs; [
         git
         openjdk
