@@ -25,7 +25,6 @@ public class ConcreteMember implements Member, Serializable {
     maxId = Math.max(maxId, id + 1);
   }
 
-
   @Override
   public Integer getID () { return id; }
 
