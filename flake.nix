@@ -46,6 +46,13 @@
         url = "https://repo1.maven.org/maven2/info/picocli/picocli/${ version }/picocli-${ version }.jar";
         sha256 = "7UQRg/MJuT8QTKngceMUpAYqiTGE4Yo8etcuycuhK6A=";
       };
+      jcmd = pkgs.writeScriptBin "jcmd" ''
+        if [ -d $CLASSPATH ]; then
+          java -cp $CLASSPATH:${ picocli } $@
+        else
+          echo "Failure: CLASSPATH is $CLASSPATH!"
+        fi
+      '';
       jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
@@ -61,6 +68,7 @@
         nvim
         plantuml
         jtest
+        jcmd
         jcc
       ]) ++ (with pkgs; [
         git
