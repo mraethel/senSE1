@@ -52,6 +52,12 @@
         url = "https://repo1.maven.org/maven2/org/jline/jline/${ version }/jline-${ version }.jar";
         sha256 = "cvy8WNoFCSBnc53tYu1rG6kHXs0P7hyqY0wsvxoW/no=";
       };
+      jansi = let
+        version = "2.4.1";
+      in pkgs.fetchurl {
+        url = "https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/${ version }/jansi-${ version }.jar";
+        sha256 = "Ll53Wp3Fj/prvWqm8JnWL4ti3N60w8O7vlzyMBvC3ME=";
+      };
       jcmd = pkgs.writeScriptBin "jcmd" ''
         if [ -d $CLASSPATH ]; then
           java -cp $CLASSPATH:${ picocli }:${ jline } $@
@@ -62,7 +68,7 @@
       jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
-          javac -d $CLASSPATH -cp "${ junit }:${ picocli }:${ jline }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
+          javac -d $CLASSPATH -cp "${ junit }:${ picocli }:${ jline }:${ jansi }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
         else
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
