@@ -33,7 +33,6 @@
         url = "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${ version }/junit-platform-console-standalone-${ version }.jar";
         sha256 = "u6I05YgLEER4fUu+uH4uTA06hf3Gn02BoSrrz99tVBM=";
       };
-      
       jtest = pkgs.writeScriptBin "junit" ''
         if [ -d $CLASSPATH ]; then
           java -jar ${ junit } execute --scan-classpath -cp $CLASSPATH
@@ -41,18 +40,16 @@
           echo "Failure: CLASSPATH is $CLASSPATH!"
         fi
       '';
-      commons-cli = let
-        version = "1.9.0";
-      in nixpkgs.lib.concatStrings [
-        (pkgs.fetchzip {
-          url = "https://dlcdn.apache.org//commons/cli/binaries/commons-cli-${ version }-bin.tar.gz";
-          sha256 = "sha256-m/WyerWVNVTD8VC9/S76NA0XlINcfA+YaTzX1zxrmxc=";
-        }) "/commons-cli-${ version }.jar"
-      ];
+      picocli = let
+        version = "4.7.6";
+      in pkgs.fetchurl {
+        url = "https://repo1.maven.org/maven2/info/picocli/picocli/${ version }/picocli-${ version }.jar";
+        sha256 = "7UQRg/MJuT8QTKngceMUpAYqiTGE4Yo8etcuycuhK6A=";
+      };
       jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
-          javac -d $CLASSPATH -cp "${ junit }:${ commons-cli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
+          javac -d $CLASSPATH -cp "${ junit }:${ picocli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
         else
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
