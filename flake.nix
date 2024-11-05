@@ -46,9 +46,15 @@
         url = "https://repo1.maven.org/maven2/info/picocli/picocli/${ version }/picocli-${ version }.jar";
         sha256 = "7UQRg/MJuT8QTKngceMUpAYqiTGE4Yo8etcuycuhK6A=";
       };
+      jline = let
+        version = "3.27.1";
+      in pkgs.fetchurl {
+        url = "https://repo1.maven.org/maven2/org/jline/jline/${ version }/jline-${ version }.jar";
+        sha256 = "cvy8WNoFCSBnc53tYu1rG6kHXs0P7hyqY0wsvxoW/no=";
+      };
       jcmd = pkgs.writeScriptBin "jcmd" ''
         if [ -d $CLASSPATH ]; then
-          java -cp $CLASSPATH:${ picocli } $@
+          java -cp $CLASSPATH:${ picocli }:${ jline } $@
         else
           echo "Failure: CLASSPATH is $CLASSPATH!"
         fi
@@ -56,7 +62,7 @@
       jcc = pkgs.writeScriptBin "jcc" ''
         shopt -s globstar
         if [ -d $GIT_ROOT ]; then
-          javac -d $CLASSPATH -cp "${ junit }:${ picocli }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
+          javac -d $CLASSPATH -cp "${ junit }:${ picocli }:${ jline }" $GIT_ROOT/src/**/*.java $GIT_ROOT/test/**/*.java
         else
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
