@@ -2,6 +2,8 @@ package org.hbrs.se1.ws24.exercises.uebung4;
 
 import org.hbrs.se1.ws24.exercises.uebung2.ConcreteMember;
 
+import picocli.CommandLine.ITypeConverter;
+
 public class UserStory extends ConcreteMember {
 
   private String titel;
@@ -27,65 +29,103 @@ public class UserStory extends ConcreteMember {
     this.projekt = projekt;
   }
 
+  public Prio getPrio() { return prio; }
+
 }
 
 class Mehrwert {
 
-  private char val;
+  private byte val;
 
-  public Mehrwert(char val) throws IllegalArgumentException {
-    if (0 < val && val < 6)
+  public Mehrwert(byte val) throws IllegalArgumentException {
+    if (1 > val || val > 5)
       throw new IllegalArgumentException("Mehrwert");
 
     this.val = val;
   }
 
-  public char val() { return val; }
+  public byte val() { return val; } 
+
+}
+
+class MehrwertConverter implements ITypeConverter<Mehrwert> {
+  
+  @Override
+  public Mehrwert convert(String value) {
+    return new Mehrwert(Byte.decode(value));
+  }
 
 }
 
 class Strafe {
 
-  private char val;
+  private byte val;
 
-  public Strafe(char val) throws IllegalArgumentException {
-    if (0 < val && val < 6)
+  public Strafe(byte val) throws IllegalArgumentException {
+    if (1 > val || val > 5)
       throw new IllegalArgumentException("Strafe");
 
     this.val = val;
   }
 
-  public char val() { return val; }
+  public byte val() { return val; } 
+
+}
+
+class StrafeConverter implements ITypeConverter<Strafe> {
+
+  @Override
+  public Strafe convert(String value) {
+    return new Strafe(Byte.decode(value));
+  }
 
 }
 
 class Risiko {
 
-  private char val;
+  private byte val;
 
-  public Risiko(char val) throws IllegalArgumentException {
-    if (0 < val && val < 6)
+  public Risiko(byte val) throws IllegalArgumentException {
+    if (1 > val || val > 5)
       throw new IllegalArgumentException("Risiko");
 
     this.val = val;
   }
 
-  public char val() { return val; }
+  public byte val() { return val; }
+
+}
+
+class RisikoConverter implements ITypeConverter<Risiko> {
+
+  @Override
+  public Risiko convert(String value) {
+    return new Risiko(Byte.decode(value));
+  }
 
 }
 
 class Aufwand {
 
-  private char val;
+  private byte val;
 
-  public Aufwand(char val) throws IllegalArgumentException {
-    if (0 < val && val < 6)
+  public Aufwand(byte val) throws IllegalArgumentException {
+    if (1 > val || val > 5)
       throw new IllegalArgumentException("Aufwand");
 
     this.val = val;
   }
 
-  public char val() { return val; }
+  public byte val() { return val; } 
+
+}
+
+class AufwandConverter implements ITypeConverter<Aufwand> {
+
+  @Override
+  public Aufwand convert(String value) {
+    return new Aufwand(Byte.decode(value));
+  }
 
 }
 
@@ -93,7 +133,7 @@ class Prio {
 
   private float val;
 
-  public Prio(char mehrwert, char strafe, char risiko, char aufwand) {
+  public Prio(byte mehrwert, byte strafe, byte risiko, byte aufwand) {
     val = (mehrwert + strafe) / (aufwand + risiko);
   }
 

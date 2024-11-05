@@ -1,6 +1,6 @@
 package org.hbrs.se1.ws24.exercises.uebung2;
 
-public interface Member {
+public interface Member extends Comparable<Member> {
 
   /**
    * Die ID ist über einen Konstruktor einer Klasse, welches dieses Interface implementiert,

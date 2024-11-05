@@ -31,4 +31,9 @@ public class ConcreteMember implements Member, Serializable {
   @Override
   public String toString () { return getID().toString(); }
 
+  @Override
+  public int compareTo(Member concreteMember) {
+    return this.getID() - concreteMember.getID();
+  }
+
 }

@@ -2,14 +2,19 @@ package org.hbrs.se1.ws24.exercises.uebung4;
 
 import org.hbrs.se1.ws24.exercises.uebung2.Container;
 import org.hbrs.se1.ws24.exercises.uebung2.ContainerException;
+import org.hbrs.se1.ws24.exercises.uebung2.Member;
 import org.hbrs.se1.ws24.exercises.uebung3.persistence.PersistenceException;
+import org.hbrs.se1.ws24.exercises.uebung3.persistence.PersistenceStrategyStream;
 import org.hbrs.se1.ws24.exercises.uebung4.UserStory;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "Main",
+import java.util.List;
+import java.util.Collections;
+
+@Command(name = "main",
     subcommands = { Enter.class,
                     Store.class,
                     Load.class,
@@ -19,6 +24,8 @@ import picocli.CommandLine.Parameters;
 public class Main {
 
   public static void main(String[] args) {
+    Container.INSTANCE.setPersistenceStrategy(new PersistenceStrategyStream<>());
+
     int exitCode = new CommandLine(new Main()).execute(args);
     System.exit(exitCode);
   }
@@ -38,18 +45,22 @@ class Enter implements Runnable {
   private String akzeptanz;
 
   @Parameters(index = "2",
+      converter = MehrwertConverter.class,
       description = "mehrwert")
   private Mehrwert mehrwert;
 
   @Parameters(index = "3",
+      converter = StrafeConverter.class,
       description = "strafe")
   private Strafe strafe;
 
   @Parameters(index = "4",
+      converter = RisikoConverter.class,
       description = "risiko")
   private Risiko risiko;
 
   @Parameters(index = "5",
+      converter = AufwandConverter.class,
       description = "Geschätzter Aufwand der User-Story.")
   private Aufwand aufwand;
 
@@ -103,11 +114,13 @@ class Load implements Runnable {
 }
 
 @Command(name = "dump",
-    description = "Ausgebe geladener User-Stories.")
+    description = "Ausgabe geladener User-Stories.")
 class Dump implements Runnable {
 
   @Override
   public void run() {
-    
+    List<Member> sortedContainer = Container.INSTANCE.getCurrentList();
+    Collections.sort(sortedContainer);
+    sortedContainer.forEach(System.out::println);
   }
 }
