@@ -66,7 +66,7 @@
       };
       jcmd = pkgs.writeScriptBin "jcmd" ''
         if [ -d $CLASSPATH ]; then
-          java -cp $CLASSPATH:${ picocli }:${ jline3 } $@
+          java -cp $CLASSPATH:${ picocli }:${ picocli-shell-jline3 }:${ jline3 }:${ jansi } $@
         else
           echo "Failure: CLASSPATH is $CLASSPATH!"
         fi
