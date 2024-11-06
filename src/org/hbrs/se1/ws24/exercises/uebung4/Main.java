@@ -196,7 +196,9 @@ class Dump implements Runnable {
   @Override
   public void run() {
     List<Member> sortedContainer = Container.INSTANCE.getCurrentList();
-//  Collections.sort(sortedContainer);
+//  Collections.sort(sortedContainer, (userStory1, userStory2) -> {
+//    return userStory1.getPrio().compareTo(userStory2.getPrio());
+//  });
     sortedContainer.forEach(System.out::println);
   }
 

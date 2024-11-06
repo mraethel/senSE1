@@ -129,14 +129,19 @@ class AufwandConverter implements ITypeConverter<Aufwand> {
 
 }
 
-class Prio {
+class Prio implements Comparable<Prio> {
 
-  private float val;
+  private Float val;
 
   public Prio(byte mehrwert, byte strafe, byte risiko, byte aufwand) {
-    val = (mehrwert + strafe) / (aufwand + risiko);
+    val = (float) (mehrwert + strafe) / (aufwand + risiko);
   }
 
-  public float val() { return val; }
+  public Float val() { return val; }
+
+  @Override
+  public int compareTo(Prio prio) {
+    return this.val().compareTo(prio.val());
+  }
 
 }

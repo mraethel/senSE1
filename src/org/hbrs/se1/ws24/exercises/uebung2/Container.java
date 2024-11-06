@@ -12,9 +12,7 @@ public enum Container {
  
   private List<Member> members;
 
-
   private PersistenceStrategy<Member> strategy;
-
 
   Container() {
     members = new ArrayList<>();
@@ -81,12 +79,12 @@ public enum Container {
   /**
    * Public for test purposes only
    */
-public void clear() {
-  Iterator<Member> iterator = members.iterator();
-  while (iterator.hasNext()) {
-    Member member = iterator.next();
-    iterator.remove();
-    ConcreteMember.freeID(member.getID());
+  public void clear() {
+    Iterator<Member> iterator = members.iterator();
+    while (iterator.hasNext()) {
+      Member member = iterator.next();
+      iterator.remove();
+      ConcreteMember.freeID(member.getID());
+    }
   }
-}
 }
