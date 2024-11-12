@@ -24,7 +24,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(member);
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.SavingFailed, "Couldn't save Object");
+            throw new PersistenceException(PersistenceException.ExceptionType.SavingFailed, e.getMessage());
         }
     }
 
@@ -63,13 +63,13 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             if (obj instanceof List<?>) {
                 newListe = (List<E>) obj;
             } else {
-                throw new PersistenceException(PersistenceException.ExceptionType.LoadingFailed, "Loaded object is not a List");
+                throw new PersistenceException(PersistenceException.ExceptionType.LoadingFailed, "Loaded object is not a List!");
             }
             fis.close();
             ois.close();
             return newListe;
         } catch (IOException | ClassNotFoundException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.LoadingFailed, "Couldn't load Object");
+            throw new PersistenceException(PersistenceException.ExceptionType.LoadingFailed, e.getMessage());
         }
     }
 }

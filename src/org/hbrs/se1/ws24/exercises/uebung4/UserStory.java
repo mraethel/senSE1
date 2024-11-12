@@ -1,6 +1,8 @@
 package org.hbrs.se1.ws24.exercises.uebung4;
 
+import org.hbrs.se1.ws24.exercises.uebung2.Member;
 import org.hbrs.se1.ws24.exercises.uebung2.ConcreteMember;
+
 
 import picocli.CommandLine.ITypeConverter;
 
@@ -22,14 +24,27 @@ public class UserStory extends ConcreteMember {
     this.titel = titel;
     this.akzeptanz = akzeptanz;
     this.prio = new Prio(
-        mehrwert.val(),
-        strafe.val(),
-        risiko.val(),
-        aufwand.val());
+        mehrwert,
+        strafe,
+        risiko,
+        aufwand);
     this.projekt = projekt;
   }
 
-  public Prio getPrio() { return prio; }
+  public String getTitel () { return this.titel; }
+
+  public String getAkzeptanz () { return this.akzeptanz; }
+
+  public Prio getPrio () { return this.prio; }
+
+  public String getProjekt () { return this.projekt; }
+
+  @Override
+  public int compareTo(Member member) {
+    return member instanceof UserStory
+      ? this.getPrio().compareTo(((UserStory)member).getPrio())
+      : super.compareTo(member);
+  }
 
 }
 
@@ -129,19 +144,3 @@ class AufwandConverter implements ITypeConverter<Aufwand> {
 
 }
 
-class Prio implements Comparable<Prio> {
-
-  private Float val;
-
-  public Prio(byte mehrwert, byte strafe, byte risiko, byte aufwand) {
-    val = (float) (mehrwert + strafe) / (aufwand + risiko);
-  }
-
-  public Float val() { return val; }
-
-  @Override
-  public int compareTo(Prio prio) {
-    return this.val().compareTo(prio.val());
-  }
-
-}

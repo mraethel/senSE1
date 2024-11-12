@@ -3,12 +3,14 @@ package org.hbrs.se1.ws24.exercises.uebung4;
 import org.hbrs.se1.ws24.exercises.uebung2.Container;
 import org.hbrs.se1.ws24.exercises.uebung2.ContainerException;
 import org.hbrs.se1.ws24.exercises.uebung2.Member;
+import org.hbrs.se1.ws24.exercises.uebung3.persistence.MemberView;
+import org.hbrs.se1.ws24.exercises.uebung3.persistence.MemberType;
 import org.hbrs.se1.ws24.exercises.uebung3.persistence.PersistenceException;
 import org.hbrs.se1.ws24.exercises.uebung3.persistence.PersistenceStrategyStream;
 import org.hbrs.se1.ws24.exercises.uebung4.UserStory;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.function.Supplier;
 
 import java.io.PrintWriter;
@@ -16,9 +18,10 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-import picocli.CommandLine;
+import picocli.CommandLine.Option;
 import picocli.shell.jline3.PicocliCommands.PicocliCommandsFactory;
 import picocli.shell.jline3.PicocliCommands;
 
@@ -37,12 +40,11 @@ import org.jline.console.impl.SystemRegistryImpl;
 
 import org.fusesource.jansi.AnsiConsole;
 
-@Command(name = "main",
+@Command(name = "\u0008",
     subcommands = { Enter.class
                   , Store.class
                   , Load.class
                   , Dump.class
-                  , CommandLine.HelpCommand.class
                   },
     description = "Verwaltung von User-Stories.")
 public class Main {
@@ -67,7 +69,6 @@ public class Main {
       try (Terminal terminal = TerminalBuilder.builder().build()) {
         SystemRegistry systemRegistry = new SystemRegistryImpl(parser, terminal, workDir, null);
         systemRegistry.setCommandRegistries(picocliCommands);
-        systemRegistry.register("help", picocliCommands);
 
         LineReader reader = LineReaderBuilder.builder()
           .terminal(terminal)
@@ -183,23 +184,31 @@ class Load implements Runnable {
   public void run() {
     try {
       Container.INSTANCE.load();
+      
+      UserStory.loadIDs(new PriorityQueue<>(Container.INSTANCE.getCurrentList()));
     } catch (PersistenceException e) {
       System.out.println(e.getMessage());
     }
   }
+
 }
 
 @Command(name = "dump",
     description = "Ausgabe geladener User-Stories.")
 class Dump implements Runnable {
 
+  @Option(names = { "-p", "--projekt" },
+      defaultValue = "",
+      description = "Filtern nach Projekt.")
+  private String projekt;
+
   @Override
   public void run() {
-    List<Member> sortedContainer = Container.INSTANCE.getCurrentList();
-//  Collections.sort(sortedContainer, (userStory1, userStory2) -> {
-//    return userStory1.getPrio().compareTo(userStory2.getPrio());
-//  });
-    sortedContainer.forEach(System.out::println);
+    Container.INSTANCE.sort();
+    
+    MemberView.dump(Container.INSTANCE.getCurrentList(), MemberType.USERSTORY, projekt.isEmpty()
+        ? member -> true
+        : member -> ((UserStory)member).getProjekt().equals(projekt));
   }
 
 }
