@@ -118,22 +118,22 @@ class Enter implements Runnable {
   private String titel;
 
   @Parameters(index = "1",
-      description = "akzeptanz")
+      description = "Akzeptanzkriterium der User-Story.")
   private String akzeptanz;
 
   @Parameters(index = "2",
       converter = MehrwertConverter.class,
-      description = "mehrwert")
+      description = "Mehrwert der User-Story.")
   private Mehrwert mehrwert;
 
   @Parameters(index = "3",
       converter = StrafeConverter.class,
-      description = "strafe")
+      description = "Strafe bei auslassen der User-Story.")
   private Strafe strafe;
 
   @Parameters(index = "4",
       converter = RisikoConverter.class,
-      description = "risiko")
+      description = "Risiko der User-Story.")
   private Risiko risiko;
 
   @Parameters(index = "5",
@@ -208,7 +208,7 @@ class Dump implements Runnable {
     
     MemberView.dump(Container.INSTANCE.getCurrentList(), MemberType.USERSTORY, projekt.isEmpty()
         ? member -> true
-        : member -> ((UserStory)member).getProjekt().equals(projekt));
+        : member -> ((UserStory)member).getProject().equals(projekt));
   }
 
 }

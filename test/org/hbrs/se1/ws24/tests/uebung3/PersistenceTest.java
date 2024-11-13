@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.tests.uebung3;
+package org.hbrs.se1.ws24.exercises.uebung3.persistence;
 
 import org.hbrs.se1.ws24.exercises.uebung2.ConcreteMember;
 import org.hbrs.se1.ws24.exercises.uebung2.Container;
@@ -9,6 +9,7 @@ import org.hbrs.se1.ws24.exercises.uebung3.persistence.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -23,12 +24,14 @@ public class PersistenceTest  {
 
   private static Container container = Container.INSTANCE;
 
-  @BeforeEach
-  public void init () {
-    container.clear();
-
+  @BeforeAll
+  public static void setup () {
     for (int i=0; i<5; i++) { members[i] = new ConcreteMember(); }
+
   }
+
+  @BeforeEach
+  public void init () { container.clear(); }
 
   @Test
   public void testNoStrategy () {
@@ -67,7 +70,7 @@ public class PersistenceTest  {
   }
 
   @Test
-  public void testWrongFileLocation(@TempDir Path tmpPath) {
+  public void testWrongFileLocation (@TempDir Path tmpPath) {
     PersistenceStrategyStream<Member> streamStrategy = new PersistenceStrategyStream<>();
     streamStrategy.setLocation(tmpPath.toString());
 
@@ -89,7 +92,7 @@ public class PersistenceTest  {
   }
 
   @Test
-  public void testRoundTrip(@TempDir Path tmpPath) throws ContainerException, PersistenceException {
+  public void testRoundTrip (@TempDir Path tmpPath) throws ContainerException, PersistenceException {
     for (Member member : members) { container.addMember(member); }
 
     assertEquals(container.size(), 5);

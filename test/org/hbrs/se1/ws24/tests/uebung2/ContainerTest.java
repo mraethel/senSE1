@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.tests.uebung2;
+package org.hbrs.se1.ws24.exercises.uebung2;
 
 import org.hbrs.se1.ws24.exercises.uebung2.*;
 
@@ -24,7 +24,7 @@ public class ContainerTest {
     = new ContainerException(member2.getID());
 
   @BeforeEach
-  public void init () { Container.INSTANCE.clear(); }
+  public void init () { container.clear(); }
 
   @Test
   public void testStage0 () {

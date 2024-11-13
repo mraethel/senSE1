@@ -3,7 +3,6 @@ package org.hbrs.se1.ws24.exercises.uebung4;
 import org.hbrs.se1.ws24.exercises.uebung2.Member;
 import org.hbrs.se1.ws24.exercises.uebung2.ConcreteMember;
 
-
 import picocli.CommandLine.ITypeConverter;
 
 public class UserStory extends ConcreteMember {
@@ -37,7 +36,7 @@ public class UserStory extends ConcreteMember {
 
   public Prio getPrio () { return this.prio; }
 
-  public String getProjekt () { return this.projekt; }
+  public String getProject () { return this.projekt; }
 
   @Override
   public int compareTo(Member member) {
@@ -48,18 +47,20 @@ public class UserStory extends ConcreteMember {
 
 }
 
-class Mehrwert {
+class Mehrwert implements ReadOnly {
 
   private byte val;
 
-  public Mehrwert(byte val) throws IllegalArgumentException {
+  public Mehrwert (int val) throws IllegalArgumentException { this((byte)val); }
+
+  public Mehrwert (byte val) throws IllegalArgumentException {
     if (1 > val || val > 5)
       throw new IllegalArgumentException("Mehrwert");
 
     this.val = val;
   }
 
-  public byte val() { return val; } 
+  public byte val () { return val; } 
 
 }
 
@@ -72,9 +73,11 @@ class MehrwertConverter implements ITypeConverter<Mehrwert> {
 
 }
 
-class Strafe {
+class Strafe implements ReadOnly {
 
   private byte val;
+
+  public Strafe (int val) throws IllegalArgumentException { this((byte)val); }
 
   public Strafe(byte val) throws IllegalArgumentException {
     if (1 > val || val > 5)
@@ -96,9 +99,11 @@ class StrafeConverter implements ITypeConverter<Strafe> {
 
 }
 
-class Risiko {
+class Risiko implements ReadOnly {
 
   private byte val;
+
+  public Risiko (int val) throws IllegalArgumentException { this((byte)val); }
 
   public Risiko(byte val) throws IllegalArgumentException {
     if (1 > val || val > 5)
@@ -120,9 +125,11 @@ class RisikoConverter implements ITypeConverter<Risiko> {
 
 }
 
-class Aufwand {
+class Aufwand implements ReadOnly {
 
   private byte val;
+
+  public Aufwand (int val) throws IllegalArgumentException { this((byte)val); }
 
   public Aufwand(byte val) throws IllegalArgumentException {
     if (1 > val || val > 5)
@@ -144,3 +151,4 @@ class AufwandConverter implements ITypeConverter<Aufwand> {
 
 }
 
+interface ReadOnly { byte val(); }

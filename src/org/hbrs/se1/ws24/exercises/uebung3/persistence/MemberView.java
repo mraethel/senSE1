@@ -29,7 +29,7 @@ public class MemberView {
                 userStory.getTitel(),
                 userStory.getAkzeptanz(),
                 userStory.getPrio().val(),
-                userStory.getProjekt()); 
+                userStory.getProject()); 
           });
 
           System.out.println("+-------------+------------+----------------------+-----------+------------+");
