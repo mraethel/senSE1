@@ -15,4 +15,5 @@ public class Client {
 
     System.out.println("Das Ergebnis der Berechnung: " + ergebnis);
   }
+
 }
