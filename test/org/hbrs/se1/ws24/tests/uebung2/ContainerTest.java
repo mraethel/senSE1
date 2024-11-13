@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws24.tests.uebung2;
+package org.hbrs.se1.ws24.exercises.uebung2;
 
 import org.hbrs.se1.ws24.exercises.uebung2.*;
 
@@ -13,24 +13,18 @@ import org.junit.jupiter.api.Test;
  */
 public class ContainerTest {
 
-  private static Member member1;
-  private static Member member2;
+  private static Member member1 = new ConcreteMember();
+  private static Member member2 = new ConcreteMember();
 
   private static Container container = Container.INSTANCE;
 
-  private static ContainerException exception1;
-  private static ContainerException exception2;
+  private static ContainerException exception1
+    = new ContainerException(member1.getID());
+  private static ContainerException exception2
+    = new ContainerException(member2.getID());
 
   @BeforeEach
-  public void init () throws ContainerException {
-    container.clear();
-
-    member1 = new ConcreteMember();
-    member2 = new ConcreteMember();
-
-    exception1 = new ContainerException(member1.getID());
-    exception2 = new ContainerException(member2.getID());
-  }
+  public void init () { container.clear(); }
 
   @Test
   public void testStage0 () {
@@ -62,7 +56,9 @@ public class ContainerTest {
     @BeforeEach
     public void addMember1 () {
       try { container.addMember(member1); }
-      catch(ContainerException e) { throw new RuntimeException("Stage1: ContainerException!"); };
+      catch(ContainerException e) {
+        throw new RuntimeException("Stage1: ContainerException!");
+      };
     }
 
     @Test
@@ -108,7 +104,9 @@ public class ContainerTest {
       @BeforeEach
       public void addMember2 () {
         try { container.addMember(member2); }
-        catch(ContainerException e) { throw new RuntimeException("Stage2: ContainerException!"); };
+        catch(ContainerException e) {
+          throw new RuntimeException("Stage2: ContainerException!");
+        };
       }
 
       @Test
