@@ -79,6 +79,36 @@
           echo "Failure: GIT_ROOT is $GIT_ROOT!"
         fi
       '';
+      tikzUML = let
+        source = pkgs.fetchzip {
+           url = "https://perso.ensta-paris.fr/~kielbasi/tikzuml/var/files/src/tikzuml-v1.0-2016-03-29.tbz";
+           sha256 = "xlpzWE4FSy1gWzlrpt2x/oTk1/Tg0ATXIVopAzO3Eh0=";
+        };
+      in pkgs.runCommand "tikz-uml" {
+        version = "1.0";
+
+        outputs = [ "tex" "texdoc" ];
+        passthru.tlDeps = [ pkgs.texlive.latex ];
+
+        nativeBuildInputs = [(pkgs.writeShellScript "force-tex-output.sh" ''
+          out="''${tex-}"
+        '')];
+      } ''
+        path="$tex/tex/latex/tikz-uml"
+        mkdir -p "$path"
+        cp ${ source }/tikz-uml.sty "$path/"
+
+        path="$texdoc/doc/tex/latex/tikz-uml"
+        mkdir -p "$path"
+        cp ${ source }/doc/*.pdf "$path/"
+      '';
+      texlive = pkgs.texliveBasic.withPackages (ps: (with ps; [
+        pgf
+        pgfopts
+        xstring
+      ]) ++ [
+        tikzUML
+      ]);
     };
     devShells.default = pkgs.mkShell {
       name = "senSE1";
@@ -88,6 +118,7 @@
         jtest
         jcmd
         jcc
+        texlive
       ]) ++ (with pkgs; [
         git
         openjdk
