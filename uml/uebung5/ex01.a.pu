@@ -1,0 +1,43 @@
+@startuml
+
+left to right direction
+
+:Student: as stud
+:Unternehmer: as ceo
+:User: as user
+
+stud --|> user
+ceo  --|> user
+
+package "Coll@HBRS" {
+  (Registrieren) as reg
+  (Profil anlegen) as profil
+  (Daten überprüfen) as proof
+  (Anmelden) as login
+  
+  (Skillz verwalten) as skillz
+
+  (Projektausschreibung aufgeben) as proj
+  (Suchanfragen aufgeben) as search
+  (Bewerbungen verwalten) as appl
+}
+
+user --  login
+user --> reg
+stud --  skillz
+ceo  --> proj
+ceo  --  search
+ceo  --  appl
+
+profil <. reg : <<include>>
+proof  <. reg : <<include>>
+
+[SIS] as sis
+
+proof -- sis
+
+[Unternehmen] as comp
+
+search -- comp
+
+@enduml

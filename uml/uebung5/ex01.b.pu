@@ -1,0 +1,27 @@
+@startuml
+
+left to right direction
+
+:Student\n(H4cker): as hack
+:Unternehmer\n(böse): as fceo
+
+package "Coll@HBRS (fail edition)" {
+  (Registrieren) as reg
+  
+  (Skillz\nverwalten) as skillz
+
+  (Projektausschreibung\naufgeben) as proj
+  (Suchanfragen\naufgeben) as search
+}
+
+fceo --> search : DoS
+fceo --> proj : Spam
+
+hack --> reg : Spoof
+hack --> skillz : Spoof
+
+[Unternehmen\n(böse)] as bcomp
+
+search -- bcomp : komplexen Prozess\nblockieren
+
+@enduml
