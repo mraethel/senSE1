@@ -127,7 +127,7 @@
         GIT_ROOT=$(git rev-parse --show-toplevel) \
         CLASSPATH=$GIT_ROOT/out \
         EDITOR=nvim \
-        exec $SHELL
+        exec ${ pkgs.zsh }/bin/zsh
       '';
     };
   });

@@ -56,6 +56,23 @@ public class MyPrettyRectangleTest {
         assertTrue(  right.contains(right) );
 
 		// [ihr Code]
+        assertFalse(right.contains(left));
+        assertFalse(right.contains(somewhere));
+
+        assertTrue(left.contains(middle));
+        assertTrue(left.contains(left));
+        assertFalse(left.contains(right));
+        assertFalse(left.contains(somewhere));
+
+        assertTrue(middle.contains(middle));
+        assertFalse(middle.contains(right));
+        assertFalse(middle.contains(left));
+        assertFalse(middle.contains(somewhere));
+
+        assertTrue(somewhere.contains(somewhere));
+        assertFalse(somewhere.contains(right));
+        assertFalse(somewhere.contains(left));
+        assertFalse(somewhere.contains(middle));
 	}
 	
 	/*
@@ -75,6 +92,9 @@ public class MyPrettyRectangleTest {
 		// (siehe dazu auch Hinweise in Kapitel 7).
 		//
 		// [ihr Code]
+    assertEquals(new MyPoint(2.5, 2.0), right.getCenter());
+    assertEquals(new MyPoint(2.5, 2.5), middle.getCenter());
+    assertEquals(new MyPoint(5.5, 2.5), somewhere.getCenter());
     }
 	
 	/*
@@ -93,6 +113,9 @@ public class MyPrettyRectangleTest {
 
         assertEquals( 6.0, left.getArea() , 0.0001);
 		// [ihr Code]
+        assertEquals(12, right.getArea(), 0.0001);
+        assertEquals(1, middle.getArea(), 0.0001);
+        assertEquals(3, somewhere.getArea(), 0.0001);
 
 	}
 
@@ -115,6 +138,9 @@ public class MyPrettyRectangleTest {
         assertEquals( 10.0, left.getPerimeter() , 0.0001 );
 
 		// [ihr Code]
+        assertEquals(14, right.getPerimeter(), 0.0001);
+        assertEquals(4, middle.getPerimeter(), 0.0001);
+        assertEquals(8, somewhere.getPerimeter(), 0.0001);
 				
 	}
 	
@@ -131,11 +157,19 @@ public class MyPrettyRectangleTest {
 		MyPrettyRectangle other = left;
 
 		// [ihr Code]
+    assertSame(left, left);
+    assertSame(left, other);
+    assertNotSame(left, right);
+    assertNotSame(left, middle);
+    assertNotSame(left, somewhere);
 
 		// Bitte drei Assertions hinzufuegen, um die Gleichheit von Rechteck-Objekten zu ueberpruefen.
         // Bitte nur die Assertion assertTrue verwenden:
         //
         // [ihr Code]
+        assertTrue(left.equals(left));
+        assertTrue(left.equals(other));
+        assertTrue(other.equals(other));
 
 
 
@@ -143,6 +177,9 @@ public class MyPrettyRectangleTest {
 		// Rechtecken ueberprueft (inklusive other). Bitte hier nur die Assertions assertTrue und assertFalse verwenden.
         //
         // [ihr Code]
+        assertTrue(left == left);
+        assertTrue(left == other);
+        assertTrue(left != right);
 
 	}
 	
@@ -166,24 +203,32 @@ public class MyPrettyRectangleTest {
 		// Die Methode der Klasse BoundingBoxFactory sollten sie selbst definieren und implementieren.
 		//
 		// [ihr Code]
+    //
+    System.out.println(BoundingBoxFactory.getBoundingBox(rect));
+    assertEquals(new MyPrettyRectangle(1, 0, 6, 4),
+        BoundingBoxFactory.getBoundingBox(rect));
+
 
 		
 		// Testen sie zudem, ob ueberhaupt ein Objekt zurueckgegeben wird,
         // d.h. der Rueckgabe-Wert ungleich NULL ist
 		// 
 		// [ihr Code]
+    assertNotNull(BoundingBoxFactory.getBoundingBox(rect));
 
 
 
 		// Test, ob ein leeres Array ein "Null-Rectangle" (vier mal die Koordinaten 0) zurueckliefert:
 		// 
 		// [ihr Code]
+    assertEquals(new MyPrettyRectangle(0, 0, 0, 0),
+        BoundingBoxFactory.getBoundingBox(new MyPrettyRectangle[0]));
 
 			
 		// Test, ob die Übergabe eines NULL-Werts erfolgreich abgefangen wurde (Rueckgabe == NULL!)
 		// 
 		// [ihr Code]
-
+    assertNull(BoundingBoxFactory.getBoundingBox(null));
 
 	}
 
